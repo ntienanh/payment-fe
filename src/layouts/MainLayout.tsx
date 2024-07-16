@@ -3,12 +3,11 @@ import {
   HomeOutlined,
   MenuFoldOutlined,
   MenuUnfoldOutlined,
-  OrderedListOutlined,
-  PicLeftOutlined,
   PrinterOutlined,
-  UserOutlined
+  UserOutlined,
+  SettingOutlined
 } from '@ant-design/icons'
-import { Avatar, Button, Dropdown, Layout, Menu, MenuProps, Space } from 'antd'
+import { Avatar, Button, Dropdown, Layout, Menu, MenuProps, Space, Tooltip } from 'antd'
 import Sider from 'antd/es/layout/Sider'
 import { Content, Header } from 'antd/es/layout/layout'
 import clsx from 'clsx'
@@ -18,21 +17,33 @@ import { Link, Outlet, useLocation } from 'react-router-dom'
 const items: MenuProps['items'] = [{ label: <Link to={'/login'}>Logout</Link>, key: '0' }]
 
 const itemsMenu = [
-  { key: '1', icon: <HomeOutlined />, label: <Link to={'/'}>Trang chủ</Link> },
+  { key: 'home', icon: <HomeOutlined />, label: <Link to={'/'}>Overview</Link> },
   {
-    key: '2',
+    key: 'product',
     icon: <PrinterOutlined />,
     label: <Link to={'/product'}>Product</Link>
   },
   {
-    key: '4',
-    icon: <PicLeftOutlined />,
-    label: <Link to={'/kho'}>Phòng kho</Link>
+    key: 'report-query',
+    label: 'Report query',
+    icon: <SettingOutlined />,
+    children: [
+      { key: '11', label: 'Option 11' },
+      { key: '12', label: 'Option 12' }
+    ]
   },
   {
-    key: '5',
-    icon: <OrderedListOutlined />,
-    label: <Link to={'/grade'}>Khối lớp</Link>
+    key: 'customer-support',
+    label: (
+      <Tooltip placement="rightTop" title={'Customer support function'} arrow>
+        Customer support function
+      </Tooltip>
+    ),
+    icon: <SettingOutlined />,
+    children: [
+      { key: 'order-query', label: <Link to={'/customer-support/order-query'}>Order query</Link> },
+      { key: 'register', label: <Link to={'/customer-support/register'}>Register new order</Link> }
+    ]
   }
 ]
 
@@ -41,17 +52,10 @@ const MainLayout = () => {
   const selectedKey = useLocation().pathname
 
   const itemActive = () => {
-    // const pathList: any = {
-    //   '/admin/user': 'user',
-    //   '/admin/media': 'media',
-    //   '/admin/parent/child1': 'child1',
-    //   '/admin/parent/child2': 'child2',
-    // };
-
     const pathList: any = {
-      '/product': '2',
-      '/kho': '4',
-      '/grade': '5'
+      '/product': 'product',
+      '/report-query/child1': 'child1',
+      '/customer-support/order-query': 'order-query'
     }
 
     for (const path in pathList) {
@@ -59,8 +63,10 @@ const MainLayout = () => {
         return [pathList[path]]
       }
     }
-    return ['1']
+    return ['home']
   }
+
+  const defaultOpenKeys = selectedKey.split('/')?.[1]
 
   return (
     <Layout>
@@ -77,7 +83,13 @@ const MainLayout = () => {
           </Link>
         </div>
 
-        <Menu selectedKeys={itemActive()} className="!h-screen" mode="inline" items={itemsMenu} />
+        <Menu
+          defaultOpenKeys={[defaultOpenKeys]}
+          selectedKeys={itemActive()}
+          className="!h-screen"
+          mode="inline"
+          items={itemsMenu}
+        />
       </Sider>
 
       <Layout className={clsx('ml-[200px] h-auto !duration-300', collapsed && 'ml-[80px] !duration-300')}>
