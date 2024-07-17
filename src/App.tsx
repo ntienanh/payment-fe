@@ -9,6 +9,8 @@ import ProductPage from './pages/Product'
 import LoginPage from './pages/Login'
 import NotFoundPage from './pages/404'
 import OrderQueryPage from './pages/CustomerSupport/OrderQuery'
+import DepositPage from './pages/Deposit'
+import QueryDeposit from './pages/Deposit/QueryDeposit'
 
 export const UserContext = createContext({} as any)
 const queryClient = new QueryClient()
@@ -30,6 +32,9 @@ function App() {
             </Route>
 
             <Route path="/login" element={<LoginPage />} />
+            <Route path="deposit" element={<DepositPage />} />
+            <Route path="deposit/query-detail" element={<QueryDeposit />} />
+
             <Route path="*" element={<NotFoundPage />} />
           </Routes>
         </ConfigProvider>
