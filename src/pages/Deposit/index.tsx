@@ -1,9 +1,11 @@
 import { Button, Form, InputNumber, Select } from 'antd'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
+import { useNProgress } from '../../hooks/useNProgress'
 import { useNavigate } from 'react-router-dom'
 
 const DepositPage = () => {
+  useNProgress()
   const [money, setMoney] = React.useState('VND')
   const [form] = Form.useForm()
   const navigate = useNavigate()

@@ -2,8 +2,10 @@ import { ClockCircleOutlined, ShareAltOutlined, CloudDownloadOutlined } from '@a
 import { Button, Divider, Form, Input, Select } from 'antd'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
+import { useNProgress } from '../../../hooks/useNProgress'
 
 const QueryDeposit = () => {
+  useNProgress()
   const [form] = Form.useForm()
   const { t, i18n } = useTranslation()
 
