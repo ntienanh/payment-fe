@@ -14,11 +14,11 @@ const LoginPage = () => {
   return (
     <section className="flex h-screen w-screen">
       <div className="hidden h-screen flex-[4] bg-[#000] md:flex">
-        <img src="../images/login-cover.jpg" alt="Welcome" className="h-screen object-cover opacity-85" />
+        <img src="../images/login.webp" alt="Welcome" className="h-screen object-cover opacity-95" />
       </div>
 
-      <div className="flex h-full flex-[6] flex-col items-center justify-center gap-3 px-6 bg-gradient-to-r from-cyan-50 to-blue-100">
-        <div className="w-full flex flex-col items-center bg-white rounded-xl py-4 shadow-xl bg-loginForm bg-cover bg-right-bottom bg-opacity-40 max-w-[720px]">
+      <div className="flex h-full flex-[4] flex-col items-center justify-center gap-3 px-6 bg-gradient-to-r from-cyan-50 to-blue-50">
+        <div className="w-full flex flex-col items-center bg-white rounded-xl py-4 shadow-xl max-w-[720px]">
           <p className="text-[36px] font-semibold uppercase">Login form</p>
 
           <Form
