@@ -2,7 +2,7 @@ import { Button, Drawer, DrawerProps, Form, FormInstance, Image, Input, message,
 import React from 'react'
 import deepEqual from 'deep-equal'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
-import axios from 'axios'
+import axios from '../../../apis/axios-client'
 
 interface IDrawerContainerProps extends DrawerProps {
   onClose: any

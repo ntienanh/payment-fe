@@ -15,7 +15,7 @@ import {
   TableColumnsType,
   Tooltip
 } from 'antd'
-import axios from 'axios'
+import axios from '../../../apis/axios-client'
 import React from 'react'
 import ExcelButton from '../../../components/elements/Buttons/ExcelButton'
 import NewCreateButton from '../../../components/elements/Buttons/NewCreateButton'
@@ -118,7 +118,7 @@ const OrderQueryPage = () => {
   //Data query
   const result = useQuery({
     queryKey: ['order-query'],
-    queryFn: () => axios.get('https://669bab76276e45187d3623e4.mockapi.io/order-query').then((res) => res.data), // call api
+    queryFn: () => axios.get('/order-query'), // call api
     staleTime: 60,
     gcTime: 120,
     refetchOnWindowFocus: false
@@ -127,7 +127,7 @@ const OrderQueryPage = () => {
   // Create Mutations
   const createMutation = useMutation({
     mutationFn: (data: any) => {
-      return axios.post(`https://669bab76276e45187d3623e4.mockapi.io/order-query`, { data })
+      return axios.post(`/order-query`, { data })
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['order-query'] })
@@ -142,7 +142,7 @@ const OrderQueryPage = () => {
   // Delete Mutations
   const deleteMutation = useMutation({
     mutationFn: (id: any) => {
-      return axios.delete(`https://669bab76276e45187d3623e4.mockapi.io/order-query/${id}`)
+      return axios.delete(`/order-query/${id}`)
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['order-query'] })
@@ -285,7 +285,7 @@ const OrderQueryPage = () => {
 
       <TableContainer
         loading={result.isLoading || result.isFetching || result.isRefetching}
-        dataSource={result.data}
+        dataSource={result.data as any}
         columns={newColumns}
         rowKey={(item: any) => item?.id}
         onChange={(_pagination: any, filters: any) => setFilteredInfo(filters)}
@@ -294,7 +294,7 @@ const OrderQueryPage = () => {
           onChange: (selectedRowKeys) => setSelectedRowKeys(selectedRowKeys),
           selectedRowKeys: selectedRowKeys
         }}
-        scroll={{ x: 1000, y: 320 }}
+        scroll={{ x: 1000, y: 'calc(100vh - 380px)' }}
         expandable={{
           expandedRowRender: (record) => (
             <div className="flex gap-6">
