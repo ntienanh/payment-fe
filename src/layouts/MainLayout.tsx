@@ -69,7 +69,7 @@ const MainLayout = () => {
   const defaultOpenKeys = selectedKey.split('/')?.[1]
 
   return (
-    <Layout>
+    <Layout className="min-h-screen">
       <Sider trigger={null} collapsible collapsed={collapsed} className="!fixed !duration-300">
         <div className="flex h-[64px] items-center justify-center border-r border-gray-100 bg-white">
           <Link to={'/'}>
@@ -93,7 +93,7 @@ const MainLayout = () => {
       </Sider>
 
       <Layout className={clsx('ml-[200px] h-auto !duration-300', collapsed && 'ml-[80px] !duration-300')}>
-        <Header className="sticky top-0 z-20 flex items-center justify-between bg-gray-100 bg-opacity-70 p-0 shadow-md backdrop-blur-[9px]">
+        <Header className="sticky top-0 z-20 flex items-center justify-between bg-gray-50 bg-opacity-70 p-0 shadow-md backdrop-blur-[9px]">
           <Button
             type="text"
             icon={collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
@@ -113,7 +113,7 @@ const MainLayout = () => {
           </div>
         </Header>
 
-        <Content className="bg-white p-4 !pb-[64px]">
+        <Content className="p-4 !pb-[64px]">
           <Outlet />
         </Content>
       </Layout>

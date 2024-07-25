@@ -7,7 +7,6 @@ import {
   Form,
   FormProps,
   Image,
-  message,
   Popconfirm,
   Popover,
   Space,
@@ -23,8 +22,11 @@ import DrawerContainer from '../../../components/sections/DrawerContainer'
 import ModalContainer from '../../../components/sections/ModalContainer'
 import TableContainer from '../../../components/sections/TableContainer'
 import { useSearchTable } from '../../../hooks/useSearchTable'
+import { notification } from '../../Notification'
+import { useNProgress } from '../../../hooks/useNProgress'
 
 const OrderQueryPage = () => {
+  useNProgress()
   const [form] = Form.useForm()
   const queryClient = useQueryClient()
   const [isModalOpen, setIsModalOpen] = React.useState(false)
@@ -131,11 +133,11 @@ const OrderQueryPage = () => {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['order-query'] })
-      message.success(`Create Success`)
+      notification.success({ message: 'Create', description: 'Created Success' })
     },
 
-    onError: (err) => {
-      message.error(`Create Fail - ${err}`)
+    onError: (err: any) => {
+      notification.error({ message: 'Create', description: `Created Fail - ${err}` })
     }
   })
 
@@ -146,10 +148,24 @@ const OrderQueryPage = () => {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['order-query'] })
-      message.success(`Delete Success`)
+      notification.success({ message: 'Delete', description: 'Deleted Success' })
     },
     onError: (err) => {
-      message.error(`Delete Fail - ${err}`)
+      notification.error({ message: 'Delete', description: `Delete Fail - ${err}` })
+    }
+  })
+
+  // Delete Mutations
+  const multiDeleteMutation = useMutation({
+    mutationFn: (ids: any) => {
+      return Promise.all(ids.map((id: string) => axios.delete(`/order-query/${id}`)))
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['order-query'] })
+      notification.success({ message: 'Delete', description: 'Deleted Success' })
+    },
+    onError: (err) => {
+      notification.error({ message: 'Delete', description: `Delete Fail - ${err}` })
     }
   })
 
@@ -173,7 +189,6 @@ const OrderQueryPage = () => {
   }
 
   const onFinish: FormProps['onFinish'] = async (data: any) => {
-    console.log('daa', data)
     createMutation.mutate(data)
     setIsModalOpen(false)
     form.resetFields()
@@ -218,13 +233,7 @@ const OrderQueryPage = () => {
               title="Are you sure!"
               description={`Delete ${selectedRowKeys.length} item`}
               onConfirm={async () => {
-                try {
-                  const deletePromises = selectedRowKeys.map((key: any) => deleteMutation.mutate(key))
-                  await Promise.all(deletePromises)
-                } catch (error) {
-                  message.error(`Cannot delete: ${error}`)
-                }
-
+                multiDeleteMutation.mutate(selectedRowKeys)
                 setSelectedRowKeys([])
               }}
               onCancel={() => null}
